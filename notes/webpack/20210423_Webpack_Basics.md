@@ -212,6 +212,19 @@ module.exports = {
 
 #### Examples
 
+> ##### 1. Hot Module Replacement
+
+> exchanges, adds or removes modules while an application is running without a full reload.
+>
+> - retain application state.
+> - speed up by only update what's changed.
+>
+> ```js
+> const webpack = require('webpack')
+> module.exports = {
+>   plugins: [new webpack.HotModuleReplacementPlugin()]
+> }
+
 ### 5. Mode
 
 1. `'development'`: set `process.env.NODE_ENV` on `DefinePlugin` to value `'development'`
