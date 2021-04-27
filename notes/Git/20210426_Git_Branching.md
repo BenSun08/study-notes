@@ -84,10 +84,78 @@ git push --set-upstream <remote> <new_branch_name>
 git fetch <remote> # fetch any data you don't have from remote  
 ```
 
+**Note**: when you do a fetch that bring down new remote-tracking branches, you don't automatically have local, editable copies of them. you can:
+
+```bash
+git merge <remote>/<branch_name> # into your working branch or
+git checkout -b <branch_name> <remote>/<branch_name>
+```
+
 ### Pushing
 
 ```bash
 git push <remote> <branch_name>:[<remote_branch_name>]
 ```
 
-**Note**:
+### Tracking Branches
+
+Checking out a local branch from a remote-traking branch automatically creates a new branch called **tracking branch**. And the branch it tracks is called **upstream branch**.
+
+```bash
+git checkout --track <remote>/<branch_name> # create a new local branch named <branch_name> 
+git branch -u/--set-upstrem-to <remote>/<branch_name> # set the current working branch to track <remote>/<branch_name>
+git branch -vv # all tracking branches you have set up. This command doesn't reach out to server, it's telling you about what it has cached from last time you fetched from server.
+```
+
+### Pulling
+
+a `git fetch` immediately followed by a `git merge`
+
+### Deleting Remote Branched
+
+```bash
+git push <remote> -d/--delete <branch_name>
+```
+
+## 6. Rebasing
+
+### Basic Rebase
+
+```bash
+git checkout experiment
+git rebase master
+```
+
+This command works by going to the common ancestor of the two branch(the branch you're on and the branch you're rebasing onto), getting the diffs introduced by each commit and saving those diffs in temporary files, resetting the current  branch to the same commit as the branch you're rebasing onto, and finally applying each change in turn.
+![Rebase](./images/basic-rebase.png)
+
+### Advanced Rebase
+
+```bash
+git checkout --onto master server client
+```
+
+This command works by taking the `client` branch, figuring out the patches since it diverged from the `server` branch and replaying these patches in `client` branch as if it was based directly off the `master` branch instead.
+![Advanced Rebase](./images/interesting-rebase.png)
+
+```bash
+git rebase master server
+```
+
+![Advanced Reabse 2](./images/interesting-rebase-2.png)
+
+### The Perils of Rebasing
+
+**Do not rebase commits that exist outside your repository and that people may have based work on.**
+When other rebase branch that you are basing on, you can:
+
+```bash
+git pull --rebase
+```
+
+which equal to
+
+```bash
+git fetch
+git rebase <remote>/<branch>
+```
