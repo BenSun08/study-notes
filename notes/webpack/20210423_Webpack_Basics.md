@@ -75,6 +75,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js", // [name] is a placeholder indicate the key in entry config
+    assetModuleFilename: "images/[name].[contenthash:8].[ext]", // output path and filename for assets that loaded by `asset` or `asset/resource` module
+    clean: true, // clean `/dist` folder for every build
   },
 };
 ```
@@ -179,7 +181,52 @@ Examples
 > };
 > ```
 >
-> #### 3. Images and Fonts
+> #### 3. PostCSS autoprefixer
+>
+> ```bash
+> npm install --save-dev postcss-loader postcss postcss-preset-env
+> ```
+>
+> _webpack.config.js_
+>
+> ```js
+> module.exports = {
+>   module: {
+>     rules: [
+>       {
+>         test: /\.s[ac]ss/i,
+>         use: [
+>           "style-loader",
+>           { loader: "css-loader", options: { importLoaders: 2 } },
+>           {
+>             loader: "postcss-loader",
+>             options: {
+>               // this preset includes autoprefixer
+>               postcssOptions: {
+>                 plugins: [
+>                   "postcss-preset-env",
+>                   { browsers: ["last 2 version", ">1%"] },
+>                 ],
+>               },
+>               /* postcssOptions: {
+>                 plugins: [
+>                   [
+>                     "autoprefixer",
+>                     { overrideBrowserslist: ["last 2 version", ">1%"] },
+>                   ],
+>                 ],
+>               },*/
+>             },
+>           },
+>           "sass-loader",
+>         ],
+>       },
+>     ],
+>   },
+> };
+> ```
+>
+> #### 4. Images and Fonts
 
 > _Prior webpack5_ is was common to use:
 > `raw-loader`: import files as string.
