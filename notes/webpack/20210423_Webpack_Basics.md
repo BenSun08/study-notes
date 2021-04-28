@@ -285,6 +285,61 @@ module.exports = {
 >   }
 > }
 > ```
+>
+> ##### 3. CssMinimizerWebpackPlugin
+
+> This plugin uses `cssnano` to optimize and minify your css.
+>
+> ```bash
+> npm install --save-dev css-minimizer-webpack-plugin
+> ```
+>
+> **webpack.prod.js**
+>
+> ```js
+> module.exports = {
+>   optimization: {
+>     minimize: true,
+>     minimizer: [new CssMinimizerWebpackPlugin()],
+>   },
+> };
+> ```
+>
+> ##### 4. HtmlWebpackPlugin
+
+> This plugin will generates a HTML file that includes all your `webpack` bundles in the body useing `script` tags.
+>
+> ```bash
+> npm install --save-dev html-webpack-plugin
+> ```
+>
+> **webpack.config.js**
+>
+> **Note**: If you have multiple `webpack` entry points, they will all be included with script tags in the generated HTML.
+>
+> ```js
+> module.exports = {
+>   plugins: [
+>     new HtmlWebpackPlugin({
+>       title: "Webpack Demo",
+>       filename: "[search].html",
+>       template: path.resolve(__dirname, "public", "index.html"),
+>       chunks: ["search"],
+>       inject: true,
+>       // boolean | object. when `mode` is `'production'` its value is true
+>       minify: {
+>         collapseWhitespace: true,
+>         keepClosingSlash: true,
+>         removeComments: true,
+>         removeRedundantAttributes: true,
+>         removeScriptTypeAttributes: true,
+>         removeStyleLinkTypeAttributes: true,
+>         useShortDoctype: true,
+>       },
+>     }),
+>   ],
+> };
+> ```
 
 ### 5. Mode
 
