@@ -79,6 +79,17 @@ module.exports = {
 };
 ```
 
+> #### Template Strings
+
+> |   Template    |                            Description                             |
+> | :-----------: | :----------------------------------------------------------------: |
+> |  [fullhash]   |                    The full hash of compilation                    |
+> | [contenthash] | The hash of the chunk, including only element of this content type |
+> |  [chunkhash]  |     The hash of the chunk, including all elements of the chunk     |
+> |     [ext]     |                           The extension                            |
+>
+> **Note**: [hash:16] to specify the length of hashes(defaults to 20)
+
 ### 3. Loaders
 
 Loaders are **transformations** that applied to the source code of a module. They allow you to preprocess files as you `imoprt` them.
@@ -172,14 +183,23 @@ Examples
 
 > _Prior webpack5_ is was common to use:
 > `raw-loader`: import files as string.
-> `url-loader`: import files as base64 data URI(uniform resource identifier).
+> `url-loader`: import files as base64 data URI(uniform resource identifier).(This loader has all functions that `file-loader` has).
 > `file-loader`: resolve `import/require()` on a file into a URL(uniform resource locator) and emit a file in the output directory.
 > **webpack.config.js**
 >
 > ```js
 > module.exports = {
 >   modules: {
->     rules: [{ test: /\.(png|jpe?g|gif)$/i, use: "file-loader" }],
+>     rules: [
+>       {
+>         test: /\.(png|jpe?g|gif)$/i,
+>         use: "file-loader",
+>         options: {
+>           name: "[name].[contenthash].[ext]",
+>           outputPath: "images",
+>         },
+>       },
+>     ],
 >   },
 > };
 > ```
@@ -188,13 +208,28 @@ Examples
 > `asset/resource`: => `file-loader`,
 > `asset/inline`: => `url-loader`,
 > `asset/source`: => `raw-loader`,
-> `asset`: automatically chooses between exporting a data URI and emitting a seperate file. Previously achieved by using `url-loader` with _asset size limit_.
+> `asset`: automatically chooses between exporting a data URI and emitting a seperate file(default `8kb`). Previously achieved by using `url-loader` with _asset size limit_.
 > **webpack.config.js**
 >
 > ```js
 > module.exports = {
+>   output: {
+>     path: path.resolve(__dirname, "dist"),
+>     filename: "[name].[contenthash:8].js",
+>     assetModuleFilename: "images/[name].[contenthash:8].[ext]",
+>   },
 >   modules: {
->     rules: [{ test: /\.(png|jpe?g|gif)$/, type: "asset/resource" }],
+>     rules: [
+>       {
+>         test: /\.(png|jpe?g|gif)$/,
+>         type: "asset/resource",
+>         parser: {
+>           dataUrlCondition: {
+>             maxSize: 4 * 1024, // 4kb
+>           },
+>         },
+>       },
+>     ],
 >   },
 > };
 > ```
@@ -217,13 +252,39 @@ module.exports = {
 > exchanges, adds or removes modules while an application is running without a full reload.
 >
 > - retain application state.
-> - speed up by only update what's changed.
+> - speed up by only updating what's changed.
 >
 > ```js
-> const webpack = require('webpack')
+> const webpack = require("webpack");
 > module.exports = {
->   plugins: [new webpack.HotModuleReplacementPlugin()]
+>   plugins: [new webpack.HotModuleReplacementPlugin()],
+> };
+> ```
+>
+> ![Hot Module Replacement](./images/Hot_Module_Replacement.png)
+> Reference: [webpack official](https://webpack.js.org/concepts/hot-module-replacement/)
+
+> ##### 2. MiniCssExtractPlugin
+
+> This plugin extrats CSS into seperate files. _This is not compatible with `style-loader`_.
+>
+> ```bash
+> npm install --save-dev mini-css-extract-plugin
+> ```
+>
+> **webpack.config.js**
+>
+> ```js
+> module.exports = {
+>   plugins: [new MiniCssExtractPlugin({ filename: '[name].[contenthash:8].css' })],
+>   module: {
+>     rules: [
+>       test: /\.css$/i,
+>       use: [MiniCssExtractPlugin.loader, 'css-loader'],
+>     ]
+>   }
 > }
+> ```
 
 ### 5. Mode
 
@@ -268,3 +329,11 @@ module.exports = {
   },
 };
 ```
+
+### 8. The Manifest
+
+In typicall application building with webpack, there three major codes:
+
+1. The source code you write.
+2. "Vendor" code your source code dependt on.
+3. Webpack runtime and **manifest** that conducts the interaction of all modules.
