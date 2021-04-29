@@ -470,3 +470,35 @@ module.exports = {
 ```
 
 [different options of source maps](https://webpack.js.org/configuration/devtool/)
+
+### 11. Externals
+
+This provides a way to exclude dependencies from output bundles. So that you can import sources from CDN.
+
+```html
+<script
+  crossorigin
+  src="https://unpkg.com/react@17/umd/react.development.js"
+></script>
+<script
+  crossorigin
+  src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+></script>
+```
+
+```js
+module.exports = {
+  externals: {
+    react: "React",
+    "react-dom": "ReactDOM",
+  },
+};
+```
+
+[or you can use `html-webpack-externals-plugin`](https://www.npmjs.com/package/html-webpack-externals-plugin)
+
+### 12. Optimization
+
+#### SplitChunks
+
+[SplitChunks](https://webpack.js.org/plugins/split-chunks-plugin/)
