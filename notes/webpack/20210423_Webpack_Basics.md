@@ -280,6 +280,14 @@ Examples
 >   },
 > };
 > ```
+>
+> #### 5. transfrom `px` to `rem`
+
+**Note**: It's recommended to use `viewport` unit instead.(vw, vh, vmin, vmax)
+
+> [px2viewport-a postCss plugin](https://github.com/evrone/postcss-px-to-viewport).
+> [px2rem-loader](https://www.npmjs.com/package/px2rem-loader).
+> [lib-flexible](https://github.com/amfe/lib-flexible).
 
 ### 4. Plugins
 
@@ -370,7 +378,7 @@ module.exports = {
 >     new HtmlWebpackPlugin({
 >       title: "Webpack Demo",
 >       filename: "[search].html",
->       template: path.resolve(__dirname, "public", "index.html"),
+>       template: path.resolve(__dirname, "public", "index.html"), // use ejs es template engine
 >       chunks: ["search"],
 >       inject: true,
 >       // boolean | object. when `mode` is `'production'` its value is true
@@ -439,3 +447,14 @@ In typicall application building with webpack, there three major codes:
 1. The source code you write.
 2. "Vendor" code your source code dependt on.
 3. Webpack runtime and **manifest** that conducts the interaction of all modules.
+
+### 9. Inline Assets
+
+- inline html.
+  > [htmlWebpackPlugin](#4-plugins) > [HtmlWebpackPlugin Options](https://github.com/jantimon/html-webpack-plugin#writing-your-own-templates)
+- inline js.
+  > ```html
+  > <script src="./node_modules/amfe-flexible/index.js"></script>
+  > ```
+- inline css.
+  > [style-loader](#3-loaders)
