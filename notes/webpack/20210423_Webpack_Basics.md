@@ -458,3 +458,15 @@ In typicall application building with webpack, there three major codes:
   > ```
 - inline css.
   > [style-loader](#3-loaders)
+
+### 10. DevTool
+
+controls if and how _source maps_ are generated.
+
+```js
+module.exports = {
+  devtool: "eval", //
+};
+```
+
+[different options of source maps](https://webpack.js.org/configuration/devtool/)
