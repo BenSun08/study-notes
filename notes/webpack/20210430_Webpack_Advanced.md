@@ -63,3 +63,37 @@ Scope hoisting breaks these closures and exposes modules to higher scope(concate
 > ### Prefetching/Preloading Modules
 
 > [reference](https://webpack.js.org/guides/code-splitting/#prefetchingpreloading-modules)
+
+## 4. ESLint
+
+> ### `EsLintWebpackPlugin`
+>
+> ```bash
+> npm i -D eslint esling-webpack-plugin @babel/eslint-parser
+> npm install -g install-peerdeps
+> install-peerdeps --dev eslint-config-airbnb
+> ```
+>
+> _webpack.dev.js_
+>
+> ```js
+> module.exports = {
+>   plugins = [new ESLintWebpackPlugin(options)]
+> }
+> ```
+>
+> _.eslintrc_
+>
+> ```json
+> {
+>   "parser": "@babel/eslint-parser",
+>   "extends": ["airbnb", "airbnb/hooks"],
+>   "env": {
+>     "browser": true,
+>     "node": false
+>   },
+>   "rules": {
+>     "import/prefer-default-export": "off" // to override airbnb rules
+>   }
+> }
+> ```
