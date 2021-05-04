@@ -97,3 +97,36 @@ Scope hoisting breaks these closures and exposes modules to higher scope(concate
 >   }
 > }
 > ```
+
+## 5. Authoring Libraries
+
+### Library Configuration
+
+_webpack.config.js_
+
+```js
+module.exports = {
+  output: {
+    library: {
+      name: "myLibrary", // the library name
+      type: "umd", // specify how the library will be exposed
+      export: "default", // specify which export shold be exposed as library.
+    },
+  },
+  externals: {
+    lodash: {
+      // do not bundle lodash into the output file, and the cosumer should already have lodash instead
+      commonjs: "lodash",
+      commonjs2: "lodash",
+      amd: "lodash",
+      root: "_",
+    },
+  },
+};
+```
+
+### Publish to NPM
+
+```bash
+npm publish
+```
