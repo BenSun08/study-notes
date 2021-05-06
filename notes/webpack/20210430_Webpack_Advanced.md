@@ -114,17 +114,24 @@ module.exports = {
     }
     globalObject: 'this', // 'window' by default, it's not suitabl for node.js
   },
+}
+```
+
+_webpack.prod.js_
+
+```js
+module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
-      title: '',
-      filename: 'index.html',
-      template: path.resolve(__dirname, 'public/index.html'),
+      title: "",
+      filename: "index.html",
+      template: path.resolve(__dirname, "public/index.html"),
       minify: {
         removeComments: false, // to remain the placeholder
-      }
-    })
-  ]
-}
+      },
+    }),
+  ],
+};
 ```
 
 _server.js_
@@ -159,4 +166,16 @@ function App(props) {
 }
 
 module.exports = <App />;
+```
+
+_index.js_
+
+```js
+import ReactDOM from "react-dom";
+
+function App(props) {
+  return <div>hhh</div>;
+}
+
+ReacDOM.hydrate(<App />, document.getElementById("root")); // add listeners on DOM
 ```
