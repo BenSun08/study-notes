@@ -130,3 +130,85 @@ module.exports = {
 ```bash
 npm publish
 ```
+
+## 6. Server-Side Rendering
+
+_webpack.ssr.js_
+
+```js
+module.exports = {
+  entry {
+    index: 'index-server.js'
+  },
+  output: {
+    filename: '[name]-server.js',
+    library: {
+      type: 'umd',
+    }
+    globalObject: 'this', // 'window' by default, it's not suitabl for node.js
+  },
+}
+```
+
+_webpack.prod.js_
+
+```js
+module.exports = {
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "",
+      filename: "index.html",
+      template: path.resolve(__dirname, "public/index.html"),
+      minify: {
+        removeComments: false, // to remain the placeholder
+      },
+    }),
+  ],
+};
+```
+
+_server.js_
+
+```js
+const { renderToString } = require("react-dom/server");
+const SSR = require("../dist/index-server.js");
+const html = renderToString(SSr);
+const data = require("./data.json");
+
+function renderMarkup(str) {
+  const template = require(path.resolve(__dirname, "../dist/index.html"));
+  const dataStr = JSON.stringify(data);
+  return template
+    .replace("<!--HTML_PLACEHOLDER", str)
+    .replace(
+      "<!--INITIAL_DATA_PLACEHOLDER-->",
+      `<script>window.__initial_data=${dataStr}</script>`
+    );
+}
+```
+
+_index-server.js_
+**Note**: all ESModule syntax must be transformed to commonjs
+
+```js
+require("./index.css");
+const React = require("react");
+
+function App(props) {
+  return <div>hhh</div>;
+}
+
+module.exports = <App />;
+```
+
+_index.js_
+
+```js
+import ReactDOM from "react-dom";
+
+function App(props) {
+  return <div>hhh</div>;
+}
+
+ReacDOM.hydrate(<App />, document.getElementById("root")); // add listeners on DOM
+```
