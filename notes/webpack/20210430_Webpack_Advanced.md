@@ -212,3 +212,23 @@ function App(props) {
 
 ReacDOM.hydrate(<App />, document.getElementById("root")); // add listeners on DOM
 ```
+
+## 7. Stats
+
+controls what bundle information get displayed.
+[reference](https://webpack.js.org/configuration/stats/).
+
+You also can use `friendly-errors-webpack-plugin`
+
+```bash
+npm i -D friendly-errors-webpack-plugin
+```
+
+*webpack.config.js*
+
+```js
+module.exports = {
+  stats: 'error-only',
+  plugins: [new FriendlyErrorsWebpackPlugin()]
+}
+```
