@@ -232,3 +232,27 @@ module.exports = {
   plugins: [new FriendlyErrorsWebpackPlugin()]
 }
 ```
+
+## 8. Compiler Hooks
+
+The `Compiler` module is the main engine that creates a compilation instance with all the options passed through the `CLI` or `Node API`.
+[refernce](https://webpack.js.org/api/compiler-hooks/)
+
+*webpack.config.js*
+
+```js
+module.exports = {
+  plugins: [
+    function() {
+      this.hooks.done.tap('done', stats => {
+        if(stats.compilation.errorr && 
+          process.argv.indexOf('--watch') === -1) 
+        {
+          console.log('build error')
+          process.exit(1)
+        }
+      })
+    }
+  ]
+}
+```
