@@ -256,3 +256,13 @@ module.exports = {
   ]
 }
 ```
+
+## 9. Smoke Testing
+
+Verifies the basic functionality of the build.
+
+- *rimraf*: `rm -rf` in node environment.
+- *webpack()*: run the webpack compiler.
+- use `process.chdir()` and `process.cwd()` to change and retrieve the process's directory.
+- *mocha*: [mocha doc](https://mochajs.org/)
+- *jest*: [jest doc](https://jestjs.io/)
