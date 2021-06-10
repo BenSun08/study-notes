@@ -14,34 +14,42 @@
    Assumed that list A has length `M`, list B has length `N`. Since when they intersect, they will share the same 'tail', we can traverse the longer list from `|M - N|` position.
 
 ```cpp
- int shortLen = 0, diff = 0;
- ListNode* trackerA = headA, * trackerB = headB;
- while (trackerA && trackerB)
- {
-  shortLen++;
-  trackerA = trackerA->next;
-  trackerB = trackerB->next;
- }
- ListNode* restTracker = trackerA ? trackerA : trackerB;
- ListNode* longList = trackerA ? headA : headB;
- ListNode* shortList = trackerA ? headB : headA;
- while (restTracker)
- {
-  diff++;
-  restTracker = restTracker->next;
- }
- while (diff > 0) {
-  longList = longList->next;
-  diff--;
- }
- while (longList) {
-  if (longList == shortList) {
-   return longList;
+struct ListNode {
+  int val;
+  ListNode* next;
+  ListNode(int x) : val(x), next(NULL) {}
+};
+
+ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+  int shortLen = 0, diff = 0;
+  ListNode* trackerA = headA, * trackerB = headB;
+  while (trackerA && trackerB)
+  {
+    shortLen++;
+    trackerA = trackerA->next;
+    trackerB = trackerB->next;
   }
-  else {
-   longList = longList->next;
-   shortList = shortList->next;
+  ListNode* restTracker = trackerA ? trackerA : trackerB;
+  ListNode* longList = trackerA ? headA : headB;
+  ListNode* shortList = trackerA ? headB : headA;
+  while (restTracker)
+  {
+    diff++;
+    restTracker = restTracker->next;
   }
- }
- return NULL;
+  while (diff > 0) {
+    longList = longList->next;
+    diff--;
+  }
+  while (longList) {
+    if (longList == shortList) {
+    return longList;
+    }
+    else {
+    longList = longList->next;
+    shortList = shortList->next;
+    }
+  }
+  return NULL;
+}
 ```
