@@ -59,4 +59,26 @@ int maxAncestorDiff(TreeNode* root) {
 
 ### Other Solutions
 
-1.
+1. Recursion
+   Instead of finding the maximum and minimum value of substrees for each node, this method finds the maximum and minimum value of parent nodes for each node.
+
+```cpp
+int maxDiffVal = 0;
+
+void helper(TreeNode* node, int currMin, int currMax) {
+  if(node != nullptr) {
+    maxDiffVal = max(maxDiffVal, max(abs(node->val - currMin), abs(node->val - currMax)));
+    currMin = min(currMin, node->val);
+    currMax = max(currMax, node->val);
+    helper(node->right, currMin, currMax);
+    helper(node->left, currMin, currMax);
+  }
+  return;
+}
+
+int maxAncestorDiff(TreeNode* root) {
+  helper(root, root->val, root->val);
+  return maxDiffVal;
+}
+
+```
