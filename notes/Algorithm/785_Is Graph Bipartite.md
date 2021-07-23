@@ -15,7 +15,9 @@ Return true if and only if it is bipartite.
 ## Solutions
 
 ### My Solution
->
+
+> When a graph is bipartite, all of its edges are linked between two set, therefore, when a vertex `u` is in set `A`, all the vertices in `graph[u]` must in the other set `B`. So I decide to recursively put each node in set `A` and `B`. During the process, if the current node expected to be put in the set, for example `A`, but it's already put in set `B`, then this graph is not bipartite.
+
 ```cpp
 #include<iostream>
 #include<vector>
@@ -68,3 +70,7 @@ int main() {
  return 0;
 }
 ```
+
+### Other Solutions
+
+#### BFS
