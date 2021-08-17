@@ -74,3 +74,40 @@ int main() {
 ### Other Solutions
 
 #### BFS
+
+use `1` and `-1` to represent two different sets.
+
+```cpp
+bool isBipartite(vector<vector<int>>& graph) {
+ queue<int> q;
+ vector<int> sets(graph.size(), 0);
+ const int SIZE = graph.size();
+
+ for (int j = 0; j < SIZE; j++) {
+  if (sets[j]) continue;
+  int idx = j;
+  q.push(idx);
+
+  int curSet = 1;
+  sets[idx] = curSet;
+  while (!q.empty()){
+   int cur = q.front();
+   q.pop();
+
+   curSet = -1 * sets[cur];
+   for (int i = 0; i < graph[cur].size(); i++) {
+    int val = graph[cur][i];
+    if (sets[val] == 0) {
+     sets[val] = curSet;
+     q.push(val);
+    }
+    else if (sets[val] != curSet) {
+     return false;
+    }
+   }
+  }
+ }
+
+ return true;
+}
+```
