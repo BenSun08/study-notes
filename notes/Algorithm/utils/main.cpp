@@ -2,15 +2,15 @@
 #include<queue>
 using namespace std;
 
+// Binary Tree
 struct TreeNode {
-  int val;
-  TreeNode *left;
-  TreeNode *right;
-  TreeNode() : val(0), left(nullptr), right(nullptr) {}
-  TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-  TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
-
 //test example: 
 // int arr[] = { 8,3,10,1,6, -1,14,-1,-1,4,7,13 };
 // int arr[] = { 1, -1, 2, -1, 0, 3};
@@ -41,4 +41,38 @@ TreeNode* arr2BinaryTreeBF(int arr[], int len) {
         }
     }
     return root;
+}
+
+// Linked List
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
+};
+ListNode* array2LinkedList(int arr[], int len) {
+    if (len == 0) return nullptr;
+    ListNode* head = new ListNode(arr[0]);
+    ListNode* curr = head;
+    for (int i = 1; i < len; i++) {
+        curr->next = new ListNode(arr[i]);
+        curr = curr->next;
+    }
+    return head;
+}
+// Linked Cycle List
+ListNode* array2LinkedCycleList(int arr[], int len, int pos) {
+    if (len == 0) return nullptr;
+    vector<ListNode*> pts(len);
+    ListNode* head = new ListNode(arr[0]);
+    pts[0] = head;
+    ListNode* curr = head;
+    for (int i = 1; i < len; i++) {
+        curr->next = new ListNode(arr[i]);
+        pts[i] = curr->next;
+        curr = curr->next;
+    }
+    if (pos > -1) pts[len - 1]->next = pts[pos];
+    return head;
 }
