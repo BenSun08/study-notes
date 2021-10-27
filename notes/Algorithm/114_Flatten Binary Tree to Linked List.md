@@ -17,7 +17,7 @@ The "linked list" should be in the same order as a pre-order traversal of the bi
 
 ### My Solution
 
-- Depth-First Search
+1. Depth-First Search(stack)
 
 ```cpp
 void flatten(TreeNode* root) {
@@ -41,9 +41,32 @@ void flatten(TreeNode* root) {
 }
 ```
 
+2. DFS(Recursion)
+
+```cpp
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        helper(root);
+    }
+private:
+    TreeNode** helper(TreeNode* curr) {
+        if (curr == nullptr) return nullptr;
+        TreeNode** ptl = helper(curr->left);
+        if (ptl) {
+            *ptl = curr->right;
+            curr->right = curr->left;
+            curr->left = nullptr;
+        }
+        TreeNode** ptr = helper(curr->right);
+        return ptr ? ptr : &curr->right;
+    }
+};
+```
+
 ### The Other Solution
 
-- no stack and recursion.
+1. no stack and recursion.
 
 ```cpp
 void flatten(TreeNode* root) {
@@ -63,3 +86,7 @@ void flatten(TreeNode* root) {
     }
  }
 ```
+
+2. Recursion
+
+use the similar principle with the solution above, though I don't think this solution is so 'recursive'.
