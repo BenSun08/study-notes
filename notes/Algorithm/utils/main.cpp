@@ -76,3 +76,45 @@ ListNode* array2LinkedCycleList(int arr[], int len, int pos) {
     if (pos > -1) pts[len - 1]->next = pts[pos];
     return head;
 }
+
+// Doubly linked list with child pointer
+class DoublyListNode {
+public:
+    int val;
+    DoublyListNode* prev;
+    DoublyListNode* next;
+    DoublyListNode* child;
+};
+DoublyListNode* arr2DoublyLinkedList(int arr[], int len) {
+    DoublyListNode* head = new DoublyListNode();
+    DoublyListNode* prev = head, * curr;
+    DoublyListNode** headPt = &head->next;
+    for (int i = 0; i < len; i++) {
+        if (arr[i] == NULL) {
+            prev = *headPt;
+            i++;
+            while (i < len && arr[i] == NULL) {
+                prev = prev->next;
+                i++;
+            }
+            if (i < len) {
+                DoublyListNode* child = new DoublyListNode();
+                child->val = arr[i];
+                prev->child = child;
+                headPt = &prev->child;
+                prev = child;
+            }
+        }
+        else {
+            curr = new DoublyListNode();
+            curr->val = arr[i];
+            prev->next = curr;
+            curr->prev = prev;
+            prev = curr;
+        }
+    }
+    prev = head;
+    head = head->next;
+    delete prev;
+    return head;
+}
