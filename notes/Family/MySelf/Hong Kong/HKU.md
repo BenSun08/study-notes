@@ -7,6 +7,7 @@
 #### Advanced Mathematics
 
 1. Integral
+![Integral rules](./Integral_Rules.png)
 
 2. Differential
 
