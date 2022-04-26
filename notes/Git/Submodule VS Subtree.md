@@ -35,7 +35,7 @@ If you want to change the branch the submodule track, you can use this command:
 If you clone a project which already has submodules, you would only have an empty directory of the submodule. You need to initialize it:
 `git submodule init`
 and let keep track of the remote repository:
-`git submodule update`
+`git submodule update --remote`
 or you can just combine them:
 `git submodule update --init`
 
